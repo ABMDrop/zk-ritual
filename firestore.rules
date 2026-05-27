@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Profiles ──────────────────────────────────────────────
+    // Anyone can read (needed for leaderboard username display)
+    // Writes only allowed for profile identity fields — no points or stats
+    match /profiles/{address} {
+      allow read: if true;
+      allow write: if request.resource.data.keys().hasOnly([
+        'address', 'username', 'twitter', 'discord', 'created_at'
+      ]);
+    }
+
+    // ── Leaderboard ───────────────────────────────────────────
+    // Anyone can read
+    // Writes allowed with: address, total_points, badges_earned,
+    //   last_checkin_date, updated_at
+    // Points capped at 10,000 to prevent manipulation
+    match /leaderboard/{address} {
+      allow read: if true;
+      allow write: if request.resource.data.keys().hasOnly([
+          'address', 'total_points', 'badges_earned', 'last_checkin_date', 'updated_at'
+        ])
+        && request.resource.data.total_points is int
+        && request.resource.data.total_points >= 0
+        && request.resource.data.total_points <= 10000
+        && request.resource.data.badges_earned is int
+        && request.resource.data.badges_earned >= 0
+        && request.resource.data.badges_earned <= 7;
+    }
+
+    // ── Block everything else ─────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

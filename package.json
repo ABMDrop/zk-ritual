@@ -1,0 +1,34 @@
+{
+  "name": "@workspace/zkred",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port $PORT",
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.ts --network ritual"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.51.0",
+    "firebase": "^10.14.1",
+    "next": "14.2.29",
+    "react": "^18",
+    "react-dom": "^18",
+    "viem": "^2.17.0",
+    "wagmi": "^2.12.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^4.9.6",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.0",
+    "dotenv": "^16.4.0",
+    "hardhat": "^2.22.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5"
+  }
+}
